@@ -17,5 +17,30 @@ router.post("/post", async (req, res) => {
     } catch (error) {
       res.send("error");
     }
+  }),
+  router.put("/put/:id", async (req, res) => {
+    try {
+      const booking = await BOOKING.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+      });
+      if (!booking) {
+        return res.send("BOOKING is not found");
+      }
+      res.send(booking);
+    } catch (error) {
+      res.send("error");
+    }
   });
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const booking = await BOOKING.findByIdAndDelete(req.params.id);
+    if (!booking) {
+      return res.send("BOOKING is not found");
+    }
+    res.send("deleted");
+  } catch (error) {
+    res.send(error);
+  }
+});
 export default router;
